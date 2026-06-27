@@ -102,9 +102,24 @@ resource "aws_security_group" "alb_sg" {
   description = "Permitir trafico HTTP/HTTPS al ALB"
   vpc_id      = aws_vpc.technova_vpc.id
 
-  ingress { from_port = 80, to_port = 80, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
-  ingress { from_port = 443, to_port = 443, protocol = "tcp", cidr_blocks = ["0.0.0.0/0"] }
-  egress  { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = { Name = "SG-ALB-TechNova", Project = "TechNova" }
 }
 
@@ -113,9 +128,24 @@ resource "aws_security_group" "ec2_sg" {
   description = "Permitir trafico desde ALB a EC2"
   vpc_id      = aws_vpc.technova_vpc.id
 
-  ingress { from_port = 80, to_port = 80, protocol = "tcp", security_groups = [aws_security_group.alb_sg.id] }
-  ingress { from_port = 3001, to_port = 3001, protocol = "tcp", security_groups = [aws_security_group.alb_sg.id] }
-  egress  { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+  ingress {
+    from_port       = 3001
+    to_port         = 3001
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = { Name = "SG-EC2-TechNova", Project = "TechNova" }
 }
 
@@ -124,8 +154,18 @@ resource "aws_security_group" "rds_sg" {
   description = "Permitir trafico MySQL desde EC2"
   vpc_id      = aws_vpc.technova_vpc.id
 
-  ingress { from_port = 3306, to_port = 3306, protocol = "tcp", security_groups = [aws_security_group.ec2_sg.id] }
-  egress  { from_port = 0, to_port = 0, protocol = "-1", cidr_blocks = ["0.0.0.0/0"] }
+  ingress {
+    from_port       = 3306
+    to_port         = 3306
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ec2_sg.id]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   tags = { Name = "SG-RDS-TechNova", Project = "TechNova" }
 }
 
@@ -162,11 +202,13 @@ resource "aws_lb_listener" "http" {
   }
 }
 
-# Busca la AMI de Ubuntu 24.04 (o usa la tuya si la tienes en AWS Academy)
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
-  filter { name = "name", values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"] }
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
 }
 
 resource "aws_launch_template" "app_lt" {
@@ -175,7 +217,7 @@ resource "aws_launch_template" "app_lt" {
   instance_type = "t3.medium"
   
   iam_instance_profile {
-    name = "LabInstanceProfile" # Perfil obligatorio en Learner Lab
+    name = "LabInstanceProfile" 
   }
 
   network_interfaces {
@@ -190,7 +232,6 @@ resource "aws_launch_template" "app_lt" {
     }
   }
 
-  # User data basico para instalar Docker y arrancar contenedores si los tienes
   user_data = base64encode(<<-EOF
               #!/bin/bash
               apt-get update -y
@@ -248,7 +289,7 @@ resource "aws_db_instance" "rds_db" {
   engine_version         = "8.0"
   instance_class         = "db.t3.medium"
   username               = "admin"
-  password               = "Technova2026!" # Cambiar en producción
+  password               = "Technova2026!" # Cambiar en produccion
   db_subnet_group_name   = aws_db_subnet_group.rds_subnet_group.name
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   multi_az               = true
