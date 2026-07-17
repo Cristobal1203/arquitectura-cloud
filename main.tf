@@ -138,26 +138,7 @@ resource "aws_db_instance" "automovil_db" {
 }
 
 # ------------------------------------------------------
-# 4. ROLES IAM (SSM y CloudWatch)
-# ------------------------------------------------------
-resource "aws_iam_role" "ec2_role" {
-  ...
-}
-resource "aws_iam_role_policy_attachment" "ssm_attach" {
-  ...
-}
-resource "aws_iam_role_policy_attachment" "cw_attach" {
-  ...
-}
-resource "aws_iam_role_policy_attachment" "ecr_attach" {
-  ...
-}
-resource "aws_iam_instance_profile" "ec2_profile" {
-  ...
-}
-
-# ------------------------------------------------------
-# 5. BALANCEADOR DE CARGA (ALB)[cite: 3]
+# 4. BALANCEADOR DE CARGA (ALB)
 # ------------------------------------------------------
 resource "aws_lb" "app_alb" {
   name               = "Automovil-ALB"
@@ -188,7 +169,7 @@ resource "aws_lb_listener" "app_listener" {
 }
 
 # ------------------------------------------------------
-# 6. AUTO SCALING GROUP & LAUNCH TEMPLATE[cite: 3]
+# 5. AUTO SCALING GROUP & LAUNCH TEMPLATE
 # ------------------------------------------------------
 resource "aws_launch_template" "app_lt" {
   name          = "Automovil-LT"
@@ -256,7 +237,7 @@ resource "aws_autoscaling_policy" "scale_up" {
 }
 
 # ------------------------------------------------------
-# 7. RECURSOS ADICIONALES (ECR, SNS)[cite: 3]
+# 6. RECURSOS ADICIONALES (ECR, SNS)
 # ------------------------------------------------------
 resource "aws_ecr_repository" "frontend_repo" {
   name = "automovil-frontend"
