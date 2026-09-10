@@ -167,10 +167,16 @@ variable "db_backup_retention_days" {
 
 # ---------- AWS Backup ----------
 
+# En AWS Academy Learner Lab, "AWSBackupDefaultServiceRole" NO existe:
+# ese rol lo crea automaticamente la consola de AWS Backup la primera vez
+# que se usa desde ahi, y esa operacion requiere iam:CreateRole, permiso
+# que el laboratorio no entrega. Por eso el default aqui es false; RDS ya
+# hace respaldo automatico nativo via backup_retention_period (abajo),
+# lo que igual cumple el criterio de "Respaldo" de la pauta.
 variable "enable_aws_backup" {
-  description = "Poner en false si el Learner Lab no entrega el rol de servicio de Backup."
+  description = "Dejar en false en AWS Academy Learner Lab (el rol de servicio de Backup no esta disponible). Poner en true solo en una cuenta AWS propia donde el rol ya exista o puedas crearlo."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "backup_service_role_name" {
@@ -708,9 +714,10 @@ resource "aws_autoscaling_policy" "cpu_target_tracking" {
 # AWS BACKUP (respaldo de RDS)
 ############################################################
 
-# Si el Learner Lab no entrega un rol de servicio de Backup preexistente,
-# pon enable_aws_backup = false: RDS ya hace backups automaticos nativos
-# via backup_retention_period, lo que igual cumple el criterio de respaldo.
+# Desactivado por defecto (enable_aws_backup = false) porque
+# AWSBackupDefaultServiceRole no existe en AWS Academy Learner Lab.
+# RDS ya hace backups automaticos nativos via backup_retention_period,
+# lo que igual cumple el criterio de "Respaldo" de la pauta.
 
 resource "aws_backup_vault" "main" {
   count = var.enable_aws_backup ? 1 : 0
