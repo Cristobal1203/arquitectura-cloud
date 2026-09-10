@@ -1,9 +1,10 @@
-// FreshBox SpA - Frontend CRUD - EP1
-const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost' : window.location.origin;
-const API_GET = API_BASE + ':3001/api/products';
-const API_POST = API_BASE + ':3002/api/products';
-const API_PUT = API_BASE + ':3003/api/products';
-const API_DELETE = API_BASE + ':3004/api/products';
+// FreshBox SpA - Frontend CRUD - Rutas relativas seguras
+const isLocal = window.location.hostname === 'localhost';
+
+const API_GET = isLocal ? 'http://localhost:3001/api/products' : '/api/products';
+const API_POST = isLocal ? 'http://localhost:3002/api/products' : '/api/products';
+const API_PUT = isLocal ? 'http://localhost:3003/api/products' : '/api/products';
+const API_DELETE = isLocal ? 'http://localhost:3004/api/products' : '/api/products';
 
 document.addEventListener('DOMContentLoaded', cargarProductos);
 
@@ -23,7 +24,7 @@ function renderizarTabla(productos) {
     if (productos.length === 0) { tbody.innerHTML = '<tr><td colspan="7">No hay productos</td></tr>'; return; }
     productos.forEach(p => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${p.id}</td><td>${p.nombre}</td><td>${p.descripcion || '-'}</td><td>$${Number(p.precio).toLocaleString('es-CL')}</td><td>${p.stock}</td><td>${p.categoria || '-'}</td><td><button class="btn-editar" onclick="editarProducto(${p.id},'${escapar(p.nombre)}','${escapar(p.descripcion||'')}',${p.precio},${p.stock},'${escapar(p.categoria||'')}')">Editar</button> <button class="btn-eliminar" onclick="eliminarProducto(${p.id})">Eliminar</button></td>`;
+        tr.innerHTML = `<td>${p.id}</td><td>${p.nombre}</td><td>${p.descripcion || '-'}</td><td>$${Number(p.precio).toLocaleString('es-CL')}</td><td>${p.stock}</td><td>${p.categoria || '-'}</td><td><button class="btn-editar" onclick="editarProducto(${p.id},'${escapar(p.nombre)}','${escapar(p.descripcion || '')}',${p.precio},${p.stock},'${escapar(p.categoria || '')}')">Editar</button> <button class="btn-eliminar" onclick="eliminarProducto(${p.id})">Eliminar</button></td>`;
         tbody.appendChild(tr);
     });
 }
@@ -34,8 +35,8 @@ async function guardarProducto(event) {
     const datos = { nombre: document.getElementById('nombre').value, descripcion: document.getElementById('descripcion').value, precio: parseFloat(document.getElementById('precio').value), stock: parseInt(document.getElementById('stock').value), categoria: document.getElementById('categoria').value };
     try {
         let response;
-        if (id) { response = await fetch(API_PUT + '/' + id, { method: 'PUT', headers: {'Content-Type':'application/json'}, body: JSON.stringify(datos) }); }
-        else { response = await fetch(API_POST, { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(datos) }); }
+        if (id) { response = await fetch(API_PUT + '/' + id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); }
+        else { response = await fetch(API_POST, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(datos) }); }
         if (!response.ok) { const err = await response.json(); throw new Error(err.error); }
         mostrarMensaje(id ? 'Producto modificado' : 'Producto creado', 'exito');
         limpiarFormulario(); cargarProductos();
