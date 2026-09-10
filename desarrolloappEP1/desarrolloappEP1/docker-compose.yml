@@ -25,9 +25,11 @@ services:
     container_name: freshbox-frontend
     ports:
       - "8080:80"
+    environment:
+      - REACT_APP_API_URL=http://freshbox-alb-1518764675.us-east-1.elb.amazonaws.com
     networks:
       - freshbox-net
-
+    
   get-products:
     build: ./microserviciosBackend/get-products
     container_name: freshbox-get-products
