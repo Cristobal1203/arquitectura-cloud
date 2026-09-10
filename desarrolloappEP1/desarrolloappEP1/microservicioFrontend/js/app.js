@@ -1,4 +1,4 @@
-// FreshBox SpA - Frontend CRUD - EP1
+// FreshBox SpA - Rutas relativas limpias para producción y local
 const API_GET = '/api/products';
 const API_POST = '/api/products';
 const API_PUT = '/api/products';
