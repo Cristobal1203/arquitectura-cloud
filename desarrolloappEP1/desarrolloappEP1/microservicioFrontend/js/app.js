@@ -1,10 +1,8 @@
-// FreshBox SpA - Frontend CRUD - Rutas relativas seguras
-const isLocal = window.location.hostname === 'localhost';
-
-const API_GET = isLocal ? 'http://localhost:3001/api/products' : '/api/products';
-const API_POST = isLocal ? 'http://localhost:3002/api/products' : '/api/products';
-const API_PUT = isLocal ? 'http://localhost:3003/api/products' : '/api/products';
-const API_DELETE = isLocal ? 'http://localhost:3004/api/products' : '/api/products';
+// FreshBox SpA - Forzado a ruta relativa limpia
+const API_GET = '/api/products';
+const API_POST = '/api/products';
+const API_PUT = '/api/products';
+const API_DELETE = '/api/products';
 
 document.addEventListener('DOMContentLoaded', cargarProductos);
 
