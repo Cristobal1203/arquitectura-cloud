@@ -80,7 +80,7 @@ variable "data_subnet_cidrs" {
 
 variable "instance_type" {
   type    = string
-  default = "t3.small"
+  default = "t4g.small"
 }
 
 variable "asg_min_size" {
@@ -553,13 +553,13 @@ resource "aws_db_instance" "mysql" {
 # AUTO SCALING GROUP (EC2 t3.small + Docker)
 ############################################################
 
-data "aws_ssm_parameter" "al2023_x86" {
-  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
+data "aws_ssm_parameter" "al2023_arm" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64"
 }
 
 resource "aws_launch_template" "app" {
   name_prefix   = "${var.project_name}-lt-"
-  image_id      = data.aws_ssm_parameter.al2023_x86.value
+  image_id      = data.aws_ssm_parameter.al2023_arm.value
   instance_type = var.instance_type
 
   iam_instance_profile {
@@ -685,8 +685,8 @@ resource "aws_autoscaling_group" "app" {
   desired_capacity          = var.asg_desired_capacity
   vpc_zone_identifier       = aws_subnet.app[*].id
   target_group_arns         = [aws_lb_target_group.app.arn]
-  health_check_type         = "ELB"
-  health_check_grace_period = 90
+  health_check_type         = "EC2"
+  health_check_grace_period = 300
 
   launch_template {
     id      = aws_launch_template.app.id
