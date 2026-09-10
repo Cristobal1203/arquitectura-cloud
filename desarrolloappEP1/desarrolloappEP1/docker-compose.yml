@@ -1,0 +1,106 @@
+services:
+  db:
+    image: mysql:8.0
+    container_name: freshbox-db
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_USER: alumno
+      MYSQL_PASSWORD: alumno123
+      MYSQL_DATABASE: freshbox
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - freshbox-net
+
+  frontend:
+    build: ./microservicioFrontend
+    container_name: freshbox-frontend
+    ports:
+      - "8080:80"
+    networks:
+      - freshbox-net
+
+  get-products:
+    build: ./microserviciosBackend/get-products
+    container_name: freshbox-get-products
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: db
+      DB_USER: alumno
+      DB_PASS: alumno123
+      DB_NAME: freshbox
+      PORT: 3001
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - freshbox-net
+
+  create-product:
+    build: ./microserviciosBackend/create-product
+    container_name: freshbox-create-product
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: db
+      DB_USER: alumno
+      DB_PASS: alumno123
+      DB_NAME: freshbox
+      PORT: 3002
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - freshbox-net
+
+  update-product:
+    build: ./microserviciosBackend/update-product
+    container_name: freshbox-update-product
+    ports:
+      - "3003:3003"
+    environment:
+      DB_HOST: db
+      DB_USER: alumno
+      DB_PASS: alumno123
+      DB_NAME: freshbox
+      PORT: 3003
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - freshbox-net
+
+  delete-product:
+    build: ./microserviciosBackend/delete-product
+    container_name: freshbox-delete-product
+    ports:
+      - "3004:3004"
+    environment:
+      DB_HOST: db
+      DB_USER: alumno
+      DB_PASS: alumno123
+      DB_NAME: freshbox
+      PORT: 3004
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - freshbox-net
+
+volumes:
+  mysql_data:
+
+networks:
+  freshbox-net:
+    driver: bridge
+
+# 2026 - Disenador asignatura: Ignacio A. Pastenet M.

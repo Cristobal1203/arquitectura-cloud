@@ -605,7 +605,6 @@ aws ecr get-login-password --region ${var.aws_region} | \
 
 mkdir -p /opt/freshbox
 cat <<'COMPOSE' > /opt/freshbox/docker-compose.yml
-version: "3.9"
 services:
   frontend:
     image: ${local.ecr_repo_urls["frontend"]}:${var.container_image_tag}
@@ -626,7 +625,8 @@ services:
       DB_PORT: "${aws_db_instance.mysql.port}"
       DB_NAME: ${var.db_name}
       DB_USER: ${var.db_username}
-      DB_PASSWORD: ${var.db_password}
+      DB_PASS: ${var.db_password}
+      PORT: "3001"
 
   create-product:
     image: ${local.ecr_repo_urls["create-product"]}:${var.container_image_tag}
@@ -636,7 +636,8 @@ services:
       DB_PORT: "${aws_db_instance.mysql.port}"
       DB_NAME: ${var.db_name}
       DB_USER: ${var.db_username}
-      DB_PASSWORD: ${var.db_password}
+      DB_PASS: ${var.db_password}
+      PORT: "3002"
 
   update-product:
     image: ${local.ecr_repo_urls["update-product"]}:${var.container_image_tag}
@@ -646,7 +647,8 @@ services:
       DB_PORT: "${aws_db_instance.mysql.port}"
       DB_NAME: ${var.db_name}
       DB_USER: ${var.db_username}
-      DB_PASSWORD: ${var.db_password}
+      DB_PASS: ${var.db_password}
+      PORT: "3003"
 
   delete-product:
     image: ${local.ecr_repo_urls["delete-product"]}:${var.container_image_tag}
@@ -656,7 +658,8 @@ services:
       DB_PORT: "${aws_db_instance.mysql.port}"
       DB_NAME: ${var.db_name}
       DB_USER: ${var.db_username}
-      DB_PASSWORD: ${var.db_password}
+      DB_PASS: ${var.db_password}
+      PORT: "3004"
 COMPOSE
 
 cd /opt/freshbox
