@@ -50,7 +50,7 @@ variable "environment" {
 
 variable "vpc_cidr" {
   type    = string
-  default = "10.0.0.0/22"
+  default = "10.0.0.0/20"
 }
 
 variable "availability_zones" {
@@ -80,7 +80,7 @@ variable "data_subnet_cidrs" {
 
 variable "instance_type" {
   type    = string
-  default = "t4g.small"
+  default = "t3.small"
 }
 
 variable "asg_min_size" {
@@ -524,7 +524,7 @@ resource "aws_db_instance" "mysql" {
 
   instance_class    = var.db_instance_class
   allocated_storage = var.db_allocated_storage
-  storage_type      = "gp3"
+  storage_type      = "gp2"
   storage_encrypted = true
 
   db_name  = var.db_name
@@ -550,16 +550,16 @@ resource "aws_db_instance" "mysql" {
 }
 
 ############################################################
-# AUTO SCALING GROUP (EC2 t4g.small + Docker)
+# AUTO SCALING GROUP (EC2 t3.small + Docker)
 ############################################################
 
-data "aws_ssm_parameter" "al2023_arm64" {
-  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64"
+data "aws_ssm_parameter" "al2023_x86" {
+  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64"
 }
 
 resource "aws_launch_template" "app" {
   name_prefix   = "${var.project_name}-lt-"
-  image_id      = data.aws_ssm_parameter.al2023_arm64.value
+  image_id      = data.aws_ssm_parameter.al2023_x86.value
   instance_type = var.instance_type
 
   iam_instance_profile {
@@ -596,7 +596,7 @@ systemctl start docker
 usermod -aG docker ec2-user
 
 mkdir -p /usr/local/lib/docker/cli-plugins
-curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-aarch64 \
+curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
   -o /usr/local/lib/docker/cli-plugins/docker-compose
 chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
 
