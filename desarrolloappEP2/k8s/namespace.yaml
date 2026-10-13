@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: freshbox
+  labels:
+    app: freshbox
+
+# 2026 - Disenador asignatura: Ignacio A. Pastenet M.

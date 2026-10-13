@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: freshbox-config
+  namespace: freshbox
+  # Cristobal Tapia | ARY1102-002D | EP2 FreshBox SpA
+data:
+  # IMPORTANTE: Reemplazar con el endpoint real del RDS EP2 antes de aplicar.
+  # Endpoint EP1 (referencia): freshbox-mysql.cmgkmpowr7mg.us-east-1.rds.amazonaws.com
+  # Obtener endpoint EP2 con: aws rds describe-db-instances --query "DBInstances[*].Endpoint.Address"
+  DB_HOST: "freshbox-mysql.cmgkmpowr7mg.us-east-1.rds.amazonaws.com"
+  DB_NAME: "freshbox"
+  DB_PORT: "3306"
+
+# 2026 - Disenador asignatura: Ignacio A. Pastenet M.

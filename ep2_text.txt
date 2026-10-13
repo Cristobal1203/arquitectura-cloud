@@ -1,0 +1,405 @@
+
+--- Pagina 1 ---
+Evaluación Parcial n°2
+Encargo con Presentación | Estudiante
+2025
+--- Pagina 2 ---
+Evaluación EP2
+Encargo con Presentación
+Estudiante
+Semana inicio
+Sigla Nombre Asignatura Tiempo Asignado % Ponderación
+EP
+ARY1102 Arquitectura Cloud 8 H 30% 10
+Página 1 de 14
+--- Pagina 3 ---
+1. Instrucciones generales
+Descripción
+▪ La presente Evaluación Parcial n°2, de carácter sumativo e individual equivalente al 30%, corresponde a un encargo individual con
+presentación que consiste en el desarrollo de un informe técnico en donde analizan el escenario empresarial con los nuevos requerimientos,
+el diseño de la solución actualizada y presentan la implementación de la arquitectura cloud diseñada basada en Orquestación de
+contenedores y servicios PaaS.
+▪ Los/las estudiantes deberán comparar enfoques tradicionales y modernos, diseñar una solución arquitectónica utilizando Orquestación de
+contenedores y servicios PaaS, y desplegar la solución con una aplicación funcional en un entorno cloud.
+▪ Se evaluará la correcta implementación, validación del funcionamiento de la solución, el uso de buenas prácticas de seguridad, escalabilidad
+y alta disponibilidad, junto con la justificación técnica de las decisiones adoptadas en función de los requerimientos del negocio.
+▪ La evaluación contempla la elaboración de un informe técnico consolidado y una presentación oral con demostración técnica en AWS
+Academy Learner Lab.
+▪ El tiempo estimado para desarrollar la evaluación en el laboratorio de computación es de 8 horas pedagógicas para el encargo y se
+considera 10 minutos para la presentación oral por cada estudiante. La evaluación se realiza de manera individual.
+▪ Las instrucciones se entregarán en la semana 10 del módulo.
+▪ La entrega del producto e instancia de presentación deberá realizarse en la semana 11.
+▪ Nota: Se sugiere al estudiante poder continuar en casa para avanzar en su encargo y posterior presentación.
+Esta evaluación parcial mide los siguientes indicadores de logro:
+• IL3.1 Compara arquitecturas tradicionales con arquitecturas basadas en orquestación de contenedores y servicios PaaS, con la finalidad
+de maximizar el rendimiento, la disponibilidad y la eficiencia en la administración y operación.
+• IL3.2 Diseña una arquitectura cloud basada en patrones de orquestación de contenedores y servicios PaaS, considerando escalabilidad,
+seguridad y alta disponibilidad.
+• IL3.3 Implementa una solución cloud basada en orquestación de contenedores y servicios PaaS, desplegando aplicaciones, gestionando
+su operación y automatización, y validando su funcionamiento de acuerdo con las estrategias del negocio.
+Página 2 de 14
+--- Pagina 4 ---
+TABLA RESUMEN DE ENTREGABLES
+Entregable Oficial Porcentaje Formato Requerido Plazo y Espacio de Entrega
+Archivo único en PDF o Word (Máx. 20 páginas).
+Componente 1: Semana 11: Entrega digital
+40% del Estructura obligatoria: Portada, Índice, Introducción,
+Informe Técnico individual a través de la plataforma
+EP2 Desarrollo (puntos 1.1 al 1.3), Conclusiones y
+(Encargo) Blackboard (AVA).
+Bibliografía APA v7.
+Semana 11: Instancia presencial
+Componente 2: Presentación ejecutiva técnica apoyada en
+60% del individual en el laboratorio. Tiempo
+Defensa Oral y PowerPoint + Demostración técnica en vivo en la
+EP2 asignado: 10 minutos por
+Demostración consola de AWS Academy Learner Lab.
+estudiante.
+INSTRUCCIONES DE LA EVALUACIÓN:
+Consideraciones para el encargo:
+El informe técnico (Desarrollo) debe incluir los siguientes apartados:
+1.1 Análisis Diferencias Arquitecturas (IE3.1.1)
+Debe incluir y evidenciar:
+• Comparación entre arquitectura tradicional (EC2+Docker) vs orquestación (EKS) vs PaaS
+• Ventajas y limitaciones de cada modelo para FreshBox SpA
+• justificación técnica de la evolución hacia EKS y RDS Multi-AZ
+1.2 Estrategia Modernización (IE3.1.2)
+Debe incluir y evidenciar:
+• Propuesta de modernización basada en orquestación de contenedores y PaaS
+• Impacto operacional, técnico y de negocio de la estrategia
+• Alineación de la estrategia con los objetivos de FreshBox SpA
+Página 3 de 14
+--- Pagina 5 ---
+1.3 Escalabilidad, Seguridad y HA (IE3.2.2)
+Debe incluir y evidenciar:
+• Escalabilidad automática: HPA en EKS, Node Group autoscaling
+• Seguridad: Security Groups por capa, cifrado EBS y RDS, segmentación de red
+• Alta disponibilidad: RDS Multi-AZ, nodos en múltiples AZ, redundancia
+ASPECTOS FORMALES
+▪ Formato: PDF o Word (máx. 20 páginas).
+▪ Estructura obligatoria: Portada (con nombre, sección, fecha), Índice, Introducción, Desarrollo (Debe incluir los puntos del informe
+técnico), Conclusiones y Bibliografía (APA v7).
+▪ Evidencias gráficas y diagramas con nomenclatura legible.
+▪ Entrega individual a través de Blackboard (AVA) en los plazos indicados por su docente.
+MATERIALES, HERRAMIENTAS E INSUMOS REQUERIDOS:
+▪ Acceso a AWS Academy Learner Lab (Nuevo curso habilitado para EP2).
+▪ Aplicación web de prueba (recurso AVA).
+▪ Script SQL para poblar la base de datos MySQL (recurso AVA).
+▪ Códigos fuentes microservicios Node.js y archivos yaml EKS (recurso AVA).
+▪ Consola AWS / CloudShell.
+▪ Herramientas para diagramas (Draw.io https://app.diagrams.net/)
+*Nota: Los estudiantes pueden usar un proyecto de innovación personal o portafolio como caso de estudio siempre que cumpla los objetivos e
+indicadores de esta evaluación.
+Consideraciones para la presentación:
+La presentación debe incluir los siguientes elementos:
+Página 4 de 14
+--- Pagina 6 ---
+2.1 Diseño Arquitectura EKS (IE3.2.1)
+Debe incluir y evidenciar:
+• Diagrama TO-BE con EKS, RDS Multi-AZ, ALB Ingress, Node Group, ECR
+• Separación en 3 capas (publica, privada App, privada Data) con Security Groups
+• Flujo de comunicación: ALB → EKS Pods → RDS MySQL Multi-AZ
+2.2 Despliegue EKS y RDS (IE3.3.1)
+Debe incluir y evidenciar:
+• Cluster EKS funcional con Node Group y 5 pods desplegados (frontend + 4 backend)
+• CRUD operativo via ALB Ingress (GET, POST, PUT, DELETE productos → RDS)
+• Imágenes Docker en ECR y manifiestos K8s aplicados (Deployments, Services)
+• RDS en Multi-AZ con su configuración en detalle.
+2.3 Monitoreo y Validación (IE3.3.2)
+Debe incluir y evidenciar:
+• CloudWatch Container Insights habilitado y métricas visibles
+• HPA configurado y funcionando (escalamiento automático de pods)
+• Validación funcional de la aplicación completa (CRUD end-to-end)
+Aspectos formales de la presentación:
+▪ Duración: 10 minutos por estudiante.
+▪ Apoyo visual: PowerPoint y demostración apoyo en vivo en consola AWS (AWS Academy).
+▪ Metodología: Presentación ejecutiva técnica.
+CHECKLIST DE ANTECEDENTES MÍNIMOS REQUERIDOS
+Dimensión encargo: informe técnico
+• [ ] Formato y Extensión: Entrega de un archivo digital único en formato PDF o Word, con una extensión máxima de 20 páginas.
+Página 5 de 14
+--- Pagina 7 ---
+• [ ] Estructura Académica Obligatoria: Inclusión de Portada formal (con nombre, sección y fecha), Índice, Introducción, Desarrollo técnico
+(puntos 1.1 al 1.3), Conclusiones y Bibliografía redactada bajo la normativa APA v7.
+• [ ] Análisis Comparativo: Contraste técnico riguroso entre la arquitectura tradicional previa (EC2+Docker) versus la nueva infraestructura
+basada en orquestación (EKS) y servicios PaaS, evaluando costos, operación y escalabilidad.
+• [ ] Justificación de la Evolución: Argumentación técnica enfocada en la migración de FreshBox SpA hacia Amazon EKS (5 pods) y Amazon
+RDS MySQL Multi-AZ para resolver la gestión manual y la falta de alta disponibilidad nativa.
+• [ ] Estrategia de Modernización: Propuesta de modernización basada en contenedores y PaaS, detallando de forma clara su impacto
+operacional, técnico, de negocio y su alineación estratégica.
+• [ ] Fundamentación de Resiliencia: Justificación teórica escrita de cómo la solución integra la escalabilidad automática (HPA y Node
+Groups), la seguridad (Security Groups por capa, cifrado EBS y RDS) y la alta disponibilidad (Multi-AZ).
+Dimensión presentación: defensa y demo en vivo
+• [ ] Soporte Visual: Diapositivas en PowerPoint que contengan el diagnóstico del caso, la propuesta de evolución y el diagrama de
+arquitectura TO-BE actualizado.
+• [ ] Diagrama de Arquitectura TO-BE: Presentación gráfica del diseño de 3 capas (Pública, Privada App y Privada Data) incorporando EKS,
+RDS Multi-AZ, ALB Ingress, Node Group, ECR, Security Groups y flujos de comunicación.
+• [ ] Entorno de AWS Activo: Acceso en tiempo real a la consola de AWS Academy Learner Lab con toda la infraestructura encendida para
+la revisión del docente.
+• [ ] Infraestructura de Orquestación Operativa: Demostración del clúster Amazon EKS funcional con Node Group (t4g.small, min 2 / max
+4 nodos) y los 5 pods desplegados (frontend + 4 backend Node.js) utilizando imágenes de Amazon ECR y manifiestos K8s aplicados.
+• [ ] Base de Datos Multi-AZ: Verificación detallada en consola de la migración de datos hacia el servidor Amazon RDS MySQL db.t4g.small
+configurado en Multi-AZ con snapshots automáticos.
+• [ ] Monitoreo y Automatización: Evidencia práctica de Amazon CloudWatch Container Insights habilitado con métricas visibles y el
+Horizontal Pod Autoscaler (HPA) configurado y operando por pod.
+• [ ] Validación del CRUD Funcional: Demostración en vivo y libre de errores del ciclo completo de productos (GET, POST, PUT, DELETE)
+consumiendo datos vía ALB Ingress hacia RDS.
+• [ ] Control de Tiempo: Defensa ceñida estrictamente al tiempo asignado de 10 minutos por estudiante.
+Página 6 de 14
+--- Pagina 8 ---
+Caso/Antecedentes
+Caso: “FreshBox SpA - evolución hacia orquestación de Contenedores y Servicios PaaS”
+FreshBox SpA completo su catálogo online en AWS (EC2+Docker, MySQL en EC2, ALB). La gerencia identifica limitaciones: gestión manual de
+contenedores, escalamiento no granular, BD sin HA nativa, administración manual de MySQL.
+Objetivo: Migrar contenedores de EC2 a EKS (5 pods) y BD de EC2 MySQL a RDS MySQL Multi-AZ. Misma funcionalidad CRUD productos,
+plataforma gestionada.
+1. La organización necesita que su plataforma permita:
+• Visualización de productos
+• Administración de productos
+• Escalabilidad automática
+• Alta disponibilidad
+• Optimización operacional y financiera
+La gerencia solicita al área de Arquitectura Cloud actualizar diseño de Arquitectura inicial o base hacia una Arquitectura de Orquestación de
+contenedores y servicios PaaS.
+2. Funcionalidades del proyecto
+Diseñar e implementar una arquitectura cloud base en AWS que permita soportar una plataforma e-commerce escalable, segura y altamente
+disponible para la venta online de productos orgánicos y saludables, a través de una plataforma robusta, escalable y altamente disponible con
+Amazon EKS y Amazon RDS.
+Página 7 de 14
+--- Pagina 9 ---
+2.1. La solución deberá seguir integrando hacia un modelo PaaS:
+• Consultar catálogo de productos (listado y detalle)
+• Crear nuevos productos (admin)
+• Modificar productos existentes (admin)
+• Eliminar productos (admin)
+2.2. Microservicios (5 POD Node.js en EKS):
+Pod Función Endpoint Método HTTP
+frontend Interfaz web desarrollada con Nginx / -
+get-products Consulta y obtiene el catálogo de productos /api/products GET
+create-product Crea nuevos productos en la base de datos /api/products POST
+update-product Modifica la información de un producto existente /api/products/:id PUT
+delete-product Elimina productos registrados en el sistema /api/products/:id DELETE
+Componente Tecnología Responsabilidad
+Frontend Nginx + HTML/CSS/JavaScript Presentación e interacción con el usuario
+API Consulta Node.js / Express Obtener productos desde MySQL
+API Creación Node.js / Express Registrar productos en MySQL
+API Actualización Node.js / Express Modificar productos existentes
+API Eliminación Node.js / Express Eliminar productos de MySQL
+2.3 Arquitectura TO-BE EP2 (3 Capas – EKS – RDS):
+Nota: Pueden reutilizar misma red creada, si no crear una nueva.
+Capa Categoría Servicio AWS Configuración
+Red Amazon VPC VPC Multi-AZ con CIDR /22
+Capa 1: Pública
+Red 2 Subredes Públicas Distribuidas en múltiples AZ
+Página 8 de 14
+--- Pagina 10 ---
+Application Load Balancer (ALB) + Ingress
+Balanceo Distribución de tráfico hacia EKS
+Controller
+Contenedores Amazon EKS Clúster Kubernetes administrado
+Cómputo Node Group t4g.small Escalamiento entre 2 y 4 nodos
+Capa 2: Privada Registro Amazon ECR Almacenamiento de imágenes Docker
+Aplicación Escalabilidad Horizontal Pod Autoscaler (HPA) Escalamiento automático de Pods
+Red NAT Gateway Salida controlada a Internet
+Aplicación 5 Pods (Frontend + Microservicios) Ejecución de cargas de trabajo
+Base de Datos Amazon RDS MySQL db.t4g.small Multi-AZ Alta disponibilidad Multi-AZ
+Capa 3: Privada Datos
+Respaldo Snapshots Automáticos RDS Recuperación ante fallos
+Control de
+Security Groups por capa Segmentación entre ALB, EKS y RDS
+Acceso
+Seguridad
+Cifrado EBS Encryption Cifrado de volúmenes de nodos EKS
+Cifrado RDS Encryption Cifrado de datos en reposo
+Monitoreo de nodos, pods, contenedores y métricas
+Observabilidad Monitoreo Amazon CloudWatch Container Insights
+del clúster
+Dominio Implementación
+Red VPC Multi-AZ con subredes públicas y privadas
+Balanceo ALB + Ingress Controller
+Contenedores Amazon EKS con 5 Pods
+Escalabilidad HPA + Node Group Auto Scaling (2–4 nodos)
+Registro de Imágenes Amazon ECR
+Base de Datos Amazon RDS MySQL Multi-AZ
+Seguridad Security Groups, cifrado EBS y RDS
+Monitoreo CloudWatch Container Insights
+Página 9 de 14
+--- Pagina 11 ---
+2.4. Security Groups
+Recurso Puertos Permitidos Origen
+Application Load Balancer (ALB) 80 (HTTP), 443 (HTTPS) 0.0.0.0/0
+EKS Aplicación 80 (HTTP), 443 (HTTPS) Security Group del ALB
+RDS Base de Datos (MySQL) 3306 (MySQL) Security Group de EKS Aplicación
+2.5. Flujo de despliegue
+1) Construir 5 imágenes Docker (1 frontend Nginx + 4 backend Node.js)
+2) Push imágenes a Amazon ECR
+3) Crear cluster EKS con Node Group (t4g.small, min 2 / max 4 nodos)
+4) Crear RDS MySQL Multi-AZ (db.t4g.small) y migrar datos desde EP1
+5) Aplicar manifiestos K8s (Deployments, Services ClusterIP, ALB Ingress)
+6) Configurar HPA (Horizontal Pod Autoscaler) por pod
+7) Habilitar CloudWatch Container Insights
+8) Validar CRUD funcional vía ALB Ingress (GET, POST, PUT, DELETE productos)
+Página 10 de 14
+--- Pagina 12 ---
+3. Pauta de Evaluación
+Categoría % logro Descripción niveles de logro
+Muy buen desempeño 100% Demuestra un desempeño destacado, evidenciando el logro de todos los aspectos evaluados en el indicador.
+Buen desempeño 80% Demuestra un alto desempeño del indicador, presentando pequeñas omisiones, dificultades y/o errores.
+Demuestra un desempeño competente, evidenciando el logro de los elementos básicos del indicador, pero con
+Desempeño aceptable 60%
+omisiones, dificultades o errores.
+Presenta importantes omisiones, dificultades o errores en el desempeño, que no permiten evidenciar los
+Desempeño incipiente 30%
+elementos básicos del logro del indicador, por lo que no puede ser considerado competente.
+Desempeño no logrado 0% Presenta ausencia o incorrecto desempeño.
+Categorías de Respuesta
+Ponderación
+Indicador de Evaluación Muy buen Desempeño Desempeño Desempeño no Indicador de
+Buen desempeño
+desempeño aceptable incipiente logrado Evaluación
+80%
+100% 60% 30% 0%
+Página 11 de 14
+--- Pagina 13 ---
+Dimensión: Encargo
+Analiza
+Analiza
+exhaustivamente
+parcialmente las
+las diferencias
+diferencias entre
+entre Analiza las Menciona
+arquitecturas,
+arquitecturas diferencias entre diferencias No analiza
+IE3.1.1: Analiza diferencias entre abordando
+tradicionales, las 2 arquitecturas generales entre diferencias entre
+arquitecturas tradicionales, superficialmente
+contenedores y solicitadas, arquitecturas, sin arquitecturas
+contenedores y servicios PaaS los criterios 10%
+servicios PaaS, presentando leves análisis técnico tradicionales,
+considerando costos, operación y solicitados
+considerando omisiones en de costos, contenedores ni
+escalabilidad. dejando
+costos, costos, operación o operación o servicios PaaS.
+inconcluso el
+operación y escalabilidad. escalabilidad.
+contraste de una
+escalabilidad con
+de las
+justificación
+tecnologías.
+técnica.
+Propone Propone una
+estrategia de Propone estrategia estrategia basada
+Menciona
+modernización con leves en uno de los
+tecnologías de
+altamente viable, omisiones en el componentes
+IE3.1.2 Recomienda una estrategia modernización
+basada en análisis de solicitados o en No propone una
+de modernización tecnológica basada de forma
+orquestación de viabilidad los dos; de estrategia de
+en orquestación de contenedores y genérica sin 10%
+contenedores y tecnológica para manera modernización
+servicios PaaS según necesidades del integrarlas en
+servicios PaaS, los componentes superficial sin tecnológica.
+negocio. una propuesta
+alineada a los Orquestación de justificar su
+estratégica para
+objetivos contenedores y impacto en la
+el negocio.
+estratégicos del PaaS. modernización
+negocio. tecnológica.
+Desarrolla de Argumenta Documenta de Menciona
+forma exhaustiva correctamente la forma parcial los conceptualmente
+No integra ni
+y escrita la integración de los mecanismos en los mecanismos
+IE3.2.2 Fundamenta la integración de fundamenta los
+justificación mecanismos en el el informe de autoscaling,
+mecanismos de escalabilidad mecanismos de
+metodológica de documento, pero técnico, seguridad o alta
+automática, seguridad y alta resiliencia 20%
+los 3 presenta incorporando la disponibilidad en
+disponibilidad dentro del informe dentro del
+mecanismos: la inconsistencias fundamentación el texto, pero de
+técnico. informe técnico
+elasticidad menores o falta de de solo dos de manera genérica,
+entregado.
+automática (HPA profundidad en la los tres aislada y sin
+y Node Group), explicación técnica elementos vincularlos
+Página 12 de 14
+--- Pagina 14 ---
+la seguridad de uno de los tres requeridos, técnicamente
+(cifrado EBS/RDS componentes afectando la para su
+y segmentación) solicitados. propuesta global operación
+y la alta del diseño. conjunta en el
+disponibilidad caso.
+(RDS Multi-AZ y
+redundancia
+entre AZ).
+Dimensión: Presentación
+El diagrama Diseña el
+expone con total El diagrama diagrama, pero
+claridad la incorpora la omite la
+topología TO-BE mayoría de las separación Presenta una
+de 3 capas: subredes y estricta en 3 propuesta básica No presenta el
+representa la servicios capas (Pública, o incompleta de diagrama o el
+integración de PaaS/contenedores Privada App, arquitectura, diseño
+IE3.2.1: Diseña un diagrama de
+Amazon EKS, RDS según las buenas Privada Data) o mostrando entregado no
+arquitectura cloud representando la
+Multi-AZ, ALB prácticas, pero excluye servicios de corresponde a la 20%
+topología TO-BE de orquestación de
+Ingress, Node presenta leves componentes del contenedores o solución
+contenedores y servicios PaaS.
+Group, ECR y inconsistencias en ecosistema PaaS aislados y arquitectónica
+Security Groups, la rotulación de las Kubernetes sin una conexión solicitada con
+detallando de conexiones o en la (como el Ingress operativa clara EKS y RDS.
+forma limpia los nomenclatura de Controller o el entre ellos.
+flujos de los componentes ECR), afectando
+comunicación y del clúster. la claridad del
+la conectividad flujo.
+Realiza el Realiza el
+Ejecuta el Registra intentos
+despliegue de la despliegue de la
+despliegue de la de despliegue
+infraestructura, infraestructura No implementa
+IE3.3.1 Despliega la Infraestructura infraestructura con errores
+pero presenta de manera solución de
+de orquestación de contenedores y de Orquestación críticos que 30%
+errores de parcial despliegue de la
+servicios PaaS. de contenedores impiden el
+configuración presentando infraestructura.
+y servicios PaaS correcto
+menores que no errores de
+verificando su funcionamiento.
+impiden su configuración
+Página 13 de 14
+--- Pagina 15 ---
+correcto funcionamiento que requieren
+funcionamiento. global. ajustes.
+Realiza intentos
+Implementa
+Implementa básicos de
+correctamente Implementa
+mecanismos de monitoreo y No implementa
+mecanismos de parcialmente los
+monitoreo y automatización, mecanismos de
+monitoreo, mecanismos de
+IE3.3.2: Monitorea, automatiza y automatización, pero carece de monitoreo,
+automatización y monitoreo,
+valida el funcionamiento de la presentando leves justificaciones automatización
+validación de la automatización y 10%
+aplicación sobre la solución cloud inconsistencias en técnicas para ni validación de
+aplicación sobre validación de la
+implementada. la validación de la validar la aplicación
+la solución cloud aplicación de la
+aplicación sobre la correctamente la sobre la solución
+verificando su solución
+solución aplicación sobre cloud.
+correcto implementada.
+implementada. la solución
+funcionamiento.
+implementada.
+Total 100%
+Página 14 de 14

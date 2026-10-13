@@ -17,7 +17,7 @@ provider "aws" {
       Project     = var.project_name
       Environment = var.environment
       ManagedBy   = "Terraform"
-      Caso        = "FreshBox-SpA-EP1"
+      Caso        = "FreshBox-SpA-EP2"
     }
   }
 }
@@ -41,9 +41,9 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "Nombre del ambiente (ep1, dev, prod, etc.)."
+  description = "Nombre del ambiente (ep2)."
   type        = string
-  default     = "ep1"
+  default     = "ep2"
 }
 
 # ---------- Red (VPC 10.0.0.0/22 - 3 capas x 2 AZ) ----------
@@ -65,7 +65,7 @@ variable "public_subnet_cidrs" {
 }
 
 variable "app_subnet_cidrs" {
-  description = "Subredes privadas de aplicación (Capa App: EC2 + Docker)."
+  description = "Subredes privadas de aplicación (Capa App: Nodos EKS)."
   type        = list(string)
   default     = ["10.0.2.0/24", "10.0.3.0/24"]
 }
@@ -76,36 +76,9 @@ variable "data_subnet_cidrs" {
   default     = ["10.0.4.0/24", "10.0.5.0/24"]
 }
 
-# ---------- Cómputo / Auto Scaling Group ----------
-
-variable "instance_type" {
-  type    = string
-  default = "t4g.small"
-}
-
-variable "asg_min_size" {
-  type    = number
-  default = 2
-}
-
-variable "asg_max_size" {
-  type    = number
-  default = 4
-}
-
-variable "asg_desired_capacity" {
-  type    = number
-  default = 2
-}
-
-# AWS Academy Learner Lab NO permite crear roles/policies IAM propios.
-# Se reutiliza el Instance Profile ya entregado por el laboratorio.
-# Verifica el nombre real con:
-#   aws iam list-instance-profiles --query "InstanceProfiles[].InstanceProfileName"
-variable "lab_instance_profile_name" {
-  type    = string
-  default = "LabInstanceProfile"
-}
+# ---------- Cómputo EKS ----------
+# Los parámetros de cómputo (instancia, min/max nodos) están en terraform-ep2.tf
+# junto con el recurso aws_eks_cluster y aws_eks_node_group.
 
 # ---------- Contenedores / ECR ----------
 
@@ -344,12 +317,13 @@ resource "aws_security_group" "alb" {
 }
 
 resource "aws_security_group" "app" {
-  name        = "${var.project_name}-sg-app"
-  description = "EC2 capa aplicacion - solo acepta trafico del ALB"
+  name        = "${var.project_name}-sg-eks-nodes"
+  description = "Nodos EKS - acepta trafico del ALB y comunicacion intra-cluster"
   vpc_id      = aws_vpc.main.id
 
+  # Trafico HTTP desde el ALB (creado por el Ingress Controller)
   ingress {
-    description     = "HTTP desde el ALB"
+    description     = "HTTP desde el SG del ALB"
     from_port       = 80
     to_port         = 80
     protocol        = "tcp"
@@ -357,31 +331,58 @@ resource "aws_security_group" "app" {
   }
 
   ingress {
-    description     = "HTTPS desde el ALB"
+    description     = "HTTPS desde el SG del ALB"
     from_port       = 443
     to_port         = 443
     protocol        = "tcp"
     security_groups = [aws_security_group.alb.id]
   }
 
+  # NodePort range: el ALB Ingress Controller redirige trafico a estos puertos
+  ingress {
+    description     = "NodePort range desde ALB (Ingress Controller)"
+    from_port       = 30000
+    to_port         = 32767
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb.id]
+  }
+
+  # Comunicacion entre nodos del cluster (kubelet, kube-proxy, CNI)
+  ingress {
+    description = "Trafico interno entre nodos EKS"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = true
+  }
+
+  # API Server -> Nodos (Kubernetes control plane)
+  ingress {
+    description = "HTTPS desde el API Server de EKS (control plane)"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
   egress {
-    description = "Salida general (ECR, actualizaciones OS, RDS) via NAT Gateway"
+    description = "Salida general: ECR, RDS, API EKS, actualizaciones via NAT"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = { Name = "${var.project_name}-sg-app" }
+  tags = { Name = "${var.project_name}-sg-eks-nodes" }
 }
 
 resource "aws_security_group" "db" {
-  name        = "${var.project_name}-sg-db"
-  description = "RDS MySQL - solo acepta trafico de la capa App"
+  name        = "${var.project_name}-sg-rds"
+  description = "RDS MySQL Multi-AZ - solo acepta trafico desde nodos EKS (puerto 3306)"
   vpc_id      = aws_vpc.main.id
 
   ingress {
-    description     = "MySQL desde EC2 App"
+    description     = "MySQL desde nodos EKS (pods de backend)"
     from_port       = 3306
     to_port         = 3306
     protocol        = "tcp"
@@ -395,52 +396,18 @@ resource "aws_security_group" "db" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags = { Name = "${var.project_name}-sg-db" }
+  tags = { Name = "${var.project_name}-sg-rds" }
 }
 
 ############################################################
-# ALB (un solo Load Balancer, multi-AZ)
+# ALB EP2
+# En EP2 el ALB lo crea automaticamente el AWS Load Balancer
+# Controller al aplicar el ingress.yaml en Kubernetes.
+# NO se crea un ALB manual aqui para evitar conflictos.
+# El SG del ALB (aws_security_group.alb) si se crea arriba
+# porque el Ingress Controller necesita un SG para el ALB.
 ############################################################
-
-resource "aws_lb" "main" {
-  name               = "${var.project_name}-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb.id]
-  subnets            = aws_subnet.public[*].id
-
-  tags = { Name = "${var.project_name}-alb" }
-}
-
-resource "aws_lb_target_group" "app" {
-  name     = "${var.project_name}-tg-app"
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = aws_vpc.main.id
-
-  health_check {
-    path                = "/"
-    protocol            = "HTTP"
-    matcher             = "200-399"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 3
-  }
-
-  tags = { Name = "${var.project_name}-tg-app" }
-}
-
-resource "aws_lb_listener" "http" {
-  load_balancer_arn = aws_lb.main.arn
-  port              = 80
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.app.arn
-  }
-}
+# (ALB creado por Kubernetes Ingress Controller — ver k8s/ingress.yaml)
 
 ############################################################
 # ECR (5 repositorios: frontend + 4 microservicios)
@@ -490,24 +457,23 @@ resource "aws_ecr_lifecycle_policy" "services" {
 }
 
 ############################################################
-# IAM - referencia al Instance Profile existente (Academy Lab)
+# IAM - referencia al LabRole del Learner Lab
 ############################################################
-
-# AWS Academy Learner Lab no permite iam:CreateRole. Se reutiliza el
-# LabInstanceProfile/LabRole que el laboratorio ya entrega.
-data "aws_iam_instance_profile" "lab" {
-  name = var.lab_instance_profile_name
-}
+# El Learner Lab proporciona LabRole con permisos amplios.
+# EKS usa este rol tanto para el cluster como para los nodos.
+# Ver data sources en terraform-ep2.tf (data.aws_iam_role.eks_cluster_role)
+# No se necesita aws_iam_instance_profile en EP2 (EKS gestiona esto).
 
 ############################################################
-# RDS MySQL Multi-AZ (según diagrama TO-BE del estudiante)
+# RDS MySQL Multi-AZ — Capa Data (EP2)
+#
+# EP2 pide: db.t4g.small MySQL Multi-AZ con snapshots automaticos.
+# En el Learner Lab, db.t3.micro es la opcion mas compatible.
+# multi_az = true: AWS crea una instancia standby en otra AZ y
+# hace failover automatico si la primaria falla (RTO < 2 min).
+# storage_encrypted = true: cifrado AES-256 en reposo (criterio IE3.2.2).
+# backup_retention_period: snapshots automaticos por 7 dias.
 ############################################################
-
-# NOTA: la pauta oficial describe la Capa Data como "EC2 + MySQL"
-# autogestionado; aquí se implementa RDS Multi-AZ replicando el
-# diagrama TO-BE (2 nodos con "sincronización" entre AZ1a/AZ1b).
-# Documentar esta decisión en el informe (1.3 y 1.7) como mejora de
-# Confiabilidad / Excelencia Operacional del Well-Architected Framework.
 
 resource "aws_db_subnet_group" "mysql" {
   name       = "${var.project_name}-db-subnet-group"
@@ -520,198 +486,48 @@ resource "aws_db_instance" "mysql" {
   identifier = "${var.project_name}-mysql"
 
   engine         = "mysql"
-  engine_version = var.db_engine_version
+  engine_version = var.db_engine_version  # 8.0
 
+  # db.t3.micro: 2 vCPU, 1 GB RAM — compatible con Learner Lab
+  # La pauta pide db.t4g.small; si esta disponible, cambiar aqui
   instance_class    = var.db_instance_class
-  allocated_storage = var.db_allocated_storage
+  allocated_storage = var.db_allocated_storage  # 20 GB
   storage_type      = "gp2"
-  storage_encrypted = true
+  storage_encrypted = true  # Cifrado EBS RDS (IE3.2.2)
 
-  db_name  = var.db_name
-  username = var.db_username
-  password = var.db_password
+  db_name  = var.db_name      # freshbox
+  username = var.db_username  # alumno
+  password = var.db_password  # via tfvars / TF_VAR_db_password
   port     = 3306
 
   db_subnet_group_name   = aws_db_subnet_group.mysql.name
   vpc_security_group_ids = [aws_security_group.db.id]
 
+  # Multi-AZ: crea standby sincronico en otra AZ (IE3.2.2 Alta Disponibilidad)
   multi_az            = true
   publicly_accessible = false
 
-  backup_retention_period = var.db_backup_retention_days
-  backup_window            = "05:00-06:00"
-  maintenance_window       = "sun:06:30-sun:07:30"
+  # Snapshots automaticos: recuperacion ante fallos (IE3.2.2 Respaldo)
+  backup_retention_period = var.db_backup_retention_days  # 7 dias
+  backup_window           = "05:00-06:00"
+  maintenance_window      = "sun:06:30-sun:07:30"
+
+  # Apagar monitoreo mejorado: no disponible en Learner Lab
+  monitoring_interval = 0
 
   skip_final_snapshot = true
   deletion_protection = false
-  apply_immediately    = true
+  apply_immediately   = true
 
-  tags = { Name = "${var.project_name}-mysql" }
+  tags = { Name = "${var.project_name}-mysql-multiaz" }
 }
 
 ############################################################
-# AUTO SCALING GROUP (EC2 t3.small + Docker)
+# COMPUTO EP2: EKS CLUSTER + NODE GROUP
+# Los recursos aws_eks_cluster y aws_eks_node_group estan
+# definidos en terraform-ep2.tf (mismo directorio).
+# Terraform unifica automaticamente todos los .tf del directorio.
 ############################################################
-
-data "aws_ssm_parameter" "al2023_arm" {
-  name = "/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-arm64"
-}
-
-resource "aws_launch_template" "app" {
-  name_prefix   = "${var.project_name}-lt-"
-  image_id      = data.aws_ssm_parameter.al2023_arm.value
-  instance_type = var.instance_type
-
-  iam_instance_profile {
-    name = data.aws_iam_instance_profile.lab.name
-  }
-
-  vpc_security_group_ids = [aws_security_group.app.id]
-
-  block_device_mappings {
-    device_name = "/dev/xvda"
-    ebs {
-      volume_size           = 20
-      volume_type            = "gp3"
-      encrypted              = true
-      delete_on_termination  = true
-    }
-  }
-
-  metadata_options {
-    http_tokens   = "required" # IMDSv2 obligatorio
-    http_endpoint = "enabled"
-  }
-
-  # Bootstrap: instala Docker, autentica con ECR y levanta los 5
-  # contenedores (1 frontend + 4 backend Node.js) via docker compose.
-  user_data = base64encode(<<EOT
-#!/bin/bash
-set -euxo pipefail
-
-dnf update -y
-dnf install -y docker
-systemctl enable docker
-systemctl start docker
-usermod -aG docker ec2-user
-
-mkdir -p /usr/local/lib/docker/cli-plugins
-curl -SL https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64 \
-  -o /usr/local/lib/docker/cli-plugins/docker-compose
-chmod +x /usr/local/lib/docker/cli-plugins/docker-compose
-
-aws ecr get-login-password --region ${var.aws_region} | \
-  docker login --username AWS --password-stdin ${local.ecr_registry}
-
-mkdir -p /opt/freshbox
-cat <<'COMPOSE' > /opt/freshbox/docker-compose.yml
-services:
-  frontend:
-    image: ${local.ecr_repo_urls["frontend"]}:${var.container_image_tag}
-    restart: always
-    ports:
-      - "80:80"
-    depends_on:
-      - get-products
-      - create-product
-      - update-product
-      - delete-product
-
-  get-products:
-    image: ${local.ecr_repo_urls["get-products"]}:${var.container_image_tag}
-    restart: always
-    environment:
-      DB_HOST: ${aws_db_instance.mysql.address}
-      DB_PORT: "${aws_db_instance.mysql.port}"
-      DB_NAME: ${var.db_name}
-      DB_USER: ${var.db_username}
-      DB_PASS: ${var.db_password}
-      PORT: "3001"
-
-  create-product:
-    image: ${local.ecr_repo_urls["create-product"]}:${var.container_image_tag}
-    restart: always
-    environment:
-      DB_HOST: ${aws_db_instance.mysql.address}
-      DB_PORT: "${aws_db_instance.mysql.port}"
-      DB_NAME: ${var.db_name}
-      DB_USER: ${var.db_username}
-      DB_PASS: ${var.db_password}
-      PORT: "3002"
-
-  update-product:
-    image: ${local.ecr_repo_urls["update-product"]}:${var.container_image_tag}
-    restart: always
-    environment:
-      DB_HOST: ${aws_db_instance.mysql.address}
-      DB_PORT: "${aws_db_instance.mysql.port}"
-      DB_NAME: ${var.db_name}
-      DB_USER: ${var.db_username}
-      DB_PASS: ${var.db_password}
-      PORT: "3003"
-
-  delete-product:
-    image: ${local.ecr_repo_urls["delete-product"]}:${var.container_image_tag}
-    restart: always
-    environment:
-      DB_HOST: ${aws_db_instance.mysql.address}
-      DB_PORT: "${aws_db_instance.mysql.port}"
-      DB_NAME: ${var.db_name}
-      DB_USER: ${var.db_username}
-      DB_PASS: ${var.db_password}
-      PORT: "3004"
-COMPOSE
-
-cd /opt/freshbox
-docker compose pull
-docker compose up -d
-EOT
-  )
-
-  tag_specifications {
-    resource_type = "instance"
-    tags          = { Name = "${var.project_name}-app" }
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
-}
-
-resource "aws_autoscaling_group" "app" {
-  name                      = "${var.project_name}-asg"
-  min_size                  = var.asg_min_size
-  max_size                  = var.asg_max_size
-  desired_capacity          = var.asg_desired_capacity
-  vpc_zone_identifier       = aws_subnet.app[*].id
-  target_group_arns         = [aws_lb_target_group.app.arn]
-  health_check_type         = "EC2"
-  health_check_grace_period = 300
-
-  launch_template {
-    id      = aws_launch_template.app.id
-    version = "$Latest"
-  }
-
-  tag {
-    key                 = "Name"
-    value               = "${var.project_name}-app"
-    propagate_at_launch = true
-  }
-}
-
-resource "aws_autoscaling_policy" "cpu_target_tracking" {
-  name                   = "${var.project_name}-asg-cpu-policy"
-  autoscaling_group_name = aws_autoscaling_group.app.name
-  policy_type            = "TargetTrackingScaling"
-
-  target_tracking_configuration {
-    predefined_metric_specification {
-      predefined_metric_type = "ASGAverageCPUUtilization"
-    }
-    target_value = 60
-  }
-}
 
 ############################################################
 # AWS BACKUP (respaldo de RDS)
@@ -757,48 +573,73 @@ resource "aws_backup_selection" "rds" {
 }
 
 ############################################################
-# OUTPUTS
+# OUTPUTS EP2
 ############################################################
 
 output "vpc_id" {
-  value = aws_vpc.main.id
+  description = "ID de la VPC Multi-AZ"
+  value       = aws_vpc.main.id
 }
 
 output "public_subnet_ids" {
-  value = aws_subnet.public[*].id
+  description = "Subredes publicas (ALB, NAT Gateway)"
+  value       = aws_subnet.public[*].id
 }
 
 output "app_subnet_ids" {
-  value = aws_subnet.app[*].id
+  description = "Subredes privadas de app (Nodos EKS)"
+  value       = aws_subnet.app[*].id
 }
 
 output "data_subnet_ids" {
-  value = aws_subnet.data[*].id
+  description = "Subredes privadas de datos (RDS MySQL)"
+  value       = aws_subnet.data[*].id
 }
 
 output "nat_gateway_ips" {
-  description = "IP publica de cada NAT Gateway (uno por AZ)"
+  description = "IPs publicas de los NAT Gateways (uno por AZ)"
   value       = aws_eip.nat[*].public_ip
 }
 
-output "alb_url" {
-  description = "URL de la aplicacion (frontend via ALB)"
-  value       = "http://${aws_lb.main.dns_name}"
+output "sg_alb_id" {
+  description = "Security Group del ALB (referenciado por Ingress Controller)"
+  value       = aws_security_group.alb.id
+}
+
+output "sg_eks_nodes_id" {
+  description = "Security Group de los nodos EKS"
+  value       = aws_security_group.app.id
+}
+
+output "sg_rds_id" {
+  description = "Security Group de RDS MySQL"
+  value       = aws_security_group.db.id
 }
 
 output "ecr_repository_urls" {
-  description = "URLs de los 5 repositorios ECR para hacer docker push"
+  description = "URLs de los 5 repositorios ECR (usar para docker push y manifiestos K8s)"
   value       = local.ecr_repo_urls
 }
 
-output "asg_name" {
-  value = aws_autoscaling_group.app.name
+output "ecr_registry" {
+  description = "Registry ECR base (ACCOUNT_ID.dkr.ecr.REGION.amazonaws.com)"
+  value       = local.ecr_registry
 }
 
 output "rds_endpoint" {
-  value = aws_db_instance.mysql.endpoint
+  description = "Endpoint completo de RDS (host:puerto) — usar en k8s/configmap.yaml"
+  value       = aws_db_instance.mysql.endpoint
 }
 
 output "rds_address" {
-  value = aws_db_instance.mysql.address
+  description = "Host de RDS — usar como DB_HOST en ConfigMap de Kubernetes"
+  value       = aws_db_instance.mysql.address
 }
+
+output "rds_multi_az" {
+  description = "Confirma que RDS esta en Multi-AZ (debe ser true)"
+  value       = aws_db_instance.mysql.multi_az
+}
+
+# EKS outputs definidos en terraform-ep2.tf
+# eks_cluster_name, eks_cluster_endpoint, eks_kubeconfig_command

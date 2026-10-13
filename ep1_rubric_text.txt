@@ -1,0 +1,558 @@
+
+--- Pagina 1 ---
+Evaluación Parcial n°1
+Encargo con Presentación | Estudiante
+2025
+--- Pagina 2 ---
+Evaluación EP1
+Encargo con Presentación
+Estudiante
+Semana inicio
+Sigla Nombre Asignatura Tiempo Asignado % Ponderación
+EP
+ARY1102 Arquitectura Cloud 8 H 40% 6
+1. Instrucciones generales
+Descripción
+▪ La presente Evaluación Parcial n°1, de carácter sumativo e individual equivalente al 40%, los/las estudiantes desarrollan un informe técnico
+donde analizan un escenario empresarial, levantan requerimientos, diseñan una solución cloud y presentan la implementación de la
+arquitectura diseñada alineada a los objetivos del negocio.
+▪ Se espera que el estudiante seleccione el modelo de nube adecuado, diseñe la arquitectura mediante diagramas y realice una
+implementación base en la nube, considerando aspectos de seguridad, escalabilidad, alta disponibilidad, despliegue de la aplicación y
+buenas prácticas.
+▪ El informe deberá incluir la justificación técnica de las decisiones adoptadas, el análisis de requerimientos, la aplicación del Well-Architected
+Framework, el Diseño de Arquitectura y la validación de la solución implementada.
+▪ La evaluación contempla la elaboración de un informe técnico consolidado y una presentación oral con demostración técnica en AWS
+Academy Learner Lab.
+▪ El tiempo estimado para desarrollar la evaluación en el laboratorio de computación es de 8 horas pedagógicas para el encargo y se
+considera 10 minutos para la presentación oral por cada estudiante.
+Página 1 de 15
+2025
+--- Pagina 3 ---
+▪ Las instrucciones se entregarán en la semana 6 del módulo.
+▪ La entrega del producto e instancia de presentación deberá realizarse en la semana 7.
+▪ Nota: Se sugiere al estudiante poder continuar en casa para avanzar en su encargo y posterior presentación.
+Esta evaluación parcial mide los siguientes indicadores de logro:
+▪
+IL1.1 Identifica un escenario empresarial, proponiendo el rol del arquitecto cloud en la toma de decisiones tecnológicas relacionándolas con los objetivos
+del negocio.
+▪
+IL1.2 Describe el Well-Architected Framework como pilares fundamentales en el correcto diseño, implementación, seguridad y costos para una
+organización empresarial.
+▪
+IL1.3 Analiza los requerimientos funcionales y no funcionales de acuerdo a las necesidades y estrategias del negocio.
+▪
+IL2.1 Planifica el modelo de nube adecuado (pública, privada o híbrida), justificando su elección según requerimientos técnicos y del negocio.
+▪
+IL2.2 Diseña una solución cloud considerando escalabilidad, seguridad y alta disponibilidad (Multi-AZ), incorporando el uso de contenedores para el
+despliegue de aplicaciones, representándola mediante un diagrama de arquitectura.
+▪
+IL2.3 Implementa una arquitectura cloud configurando servicios de red, seguridad y alta disponibilidad, desplegando aplicaciones en contenedores,
+asegurando la conectividad, el correcto funcionamiento y el cumplimiento de buenas prácticas.
+TABLA RESUMEN DE ENTREGABLES
+Entregable Oficial Porcentaje Formato Requerido Plazo y Espacio de Entrega
+Archivo único en PDF o Word (Máx. 20 páginas).
+Componente 1: Semana 7: Entrega digital
+40% del Estructura obligatoria: Portada, Índice, Introducción,
+Informe Técnico individual a través de la plataforma
+EP1 Desarrollo (puntos 1.1 al 1.7), Conclusiones y
+(Encargo) Blackboard (AVA).
+Bibliografía APA v7.
+Componente 2: Semana 7: Instancia presencial
+Presentación ejecutiva técnica apoyada en
+Defensa Oral y 60% del individual en el laboratorio. Tiempo
+PowerPoint + Demostración técnica en vivo en la
+Demostración EP1 asignado: 10 minutos por
+consola de AWS Academy.
+(Presentación) estudiante.
+Página 2 de 15
+2025
+--- Pagina 4 ---
+INSTRUCCIONES DE LA EVALUACIÓN:
+Consideraciones para el encargo:
+El informe técnico debe incluir los siguientes apartados:
+1.1. Fundamentación del Rol del Arquitecto Cloud (IE1.1.2)
+Debe incluir y evidenciar:
+▪ Definición del rol del arquitecto cloud en la organización
+▪ Responsabilidades técnicas y estratégicas
+▪ Alineación entre decisiones de arquitectura y objetivos del negocio
+1.2. Pilares del Well-Architected Framework (IE1.2.1)
+Debe incluir y evidenciar:
+▪ Descripción de los 6 pilares AWS Well-Architected
+▪ Aplicación de cada pilar al contexto de FreshBox SpA
+▪ Vinculación entre pilares y necesidades empresariales del caso
+1.3. Análisis de Arquitectura según Well-Architected (IE1.2.2)
+Debe incluir y evidenciar:
+▪ Riesgos identificados en la arquitectura propuesta
+▪ Oportunidades de mejora por pilar
+▪ Recomendaciones específicas y mejoras propuestas
+1.4. Priorización de Requerimientos (IE1.3.2)
+Debe incluir y evidenciar:
+▪ Clasificación de requerimientos técnicos y de negocio
+▪ Criterios y tabla de priorización (alta, media, baja)
+▪ Propuesta de solución cloud alineada a los requerimientos priorizados
+1.5. Comparación de Modelos de Nube (IE2.1.1)
+Debe incluir y evidenciar:
+▪ Comparación entre nube pública, privada e híbrida
+Página 3 de 15
+2025
+--- Pagina 5 ---
+▪ Criterios de comparación: costos, seguridad, escalabilidad
+▪ Tabla comparativa con ventajas y desventajas para FreshBox
+1.6. Justificación del Modelo Cloud (IE2.1.2)
+Debe incluir y evidenciar:
+▪ Modelo cloud seleccionado y justificación técnica
+▪ Justificación financiera (reducción CAPEX por OPEX)
+▪ Justificación estratégica (alineación con objetivos del negocio)
+1.7. Validación del Diseño (IE2.2.2)
+Debe incluir y evidenciar:
+▪ Validación de alta disponibilidad (Multi-AZ, ALB, ASG)
+▪ Validación de escalabilidad (Auto Scaling Group, contenedores)
+▪ Validación de buenas prácticas (segmentación, cifrado, Security Groups por capa)
+Los aspectos formales son:
+▪ Formato: PDF o Word (máx. 20 páginas).
+▪ Estructura obligatoria: Portada (con nombre, sección, fecha), Índice, Introducción, Desarrollo (Debe incluir los puntos del informe técnico),
+Conclusiones y Bibliografía (APA v7).
+▪ Evidencias gráficas y diagramas con nomenclatura legible.
+▪ Entrega individual a través de Blackboard (AVA) en los plazos indicados por su docente.
+MATERIALES, HERRAMIENTAS E INSUMOS REQUERIDOS:
+▪ Acceso a AWS Academy Learner Lab (Nuevo curso habilitado para EP1).
+▪ Aplicación web de prueba (recurso AVA).
+▪ Script SQL para poblar la base de datos MySQL (recurso AVA).
+▪ Códigos fuentes microservicios Node.js (recurso AVA).
+▪ Consola AWS / CloudShell.
+▪ Herramientas para diagramas (Draw.io https://app.diagrams.net/)
+Página 4 de 15
+2025
+--- Pagina 6 ---
+*Nota: Los estudiantes pueden usar un proyecto de innovación personal o portafolio como caso de estudio siempre que cumpla los objetivos e
+indicadores de esta evaluación.
+Consideraciones para la presentación:
+La presentación debe incluir los siguientes elementos:
+2.1 Análisis del Caso (IE1.1.1)
+Debe incluir y evidenciar:
+▪ Diagnostico empresarial y necesidades tecnológicas de FreshBox SpA
+▪ Decisiones cloud alineadas a los objetivos del negocio
+▪ Propuesta de solución cloud inicial y beneficios esperados
+2.2 Requerimientos (IE1.3.1)
+Debe incluir y evidenciar:
+▪ Levantamiento de requerimientos funcionales y no funcionales
+▪ Clasificación y priorización de requerimientos clave
+▪ Vinculación de requerimientos con la solución cloud propuesta
+2.3 Diagrama de Arquitectura (IE2.2.1)
+▪ Debe incluir y evidenciar:
+▪ Diagrama TO-BE de 3 capas (publica, privada App, privada Data)
+▪ Componentes obligatorios: VPC, subredes, ALB, EC2+Docker, MySQL, Security Groups
+▪ Flujo de comunicación y conectividad entre capas
+2.4 Configuración de Red/Seguridad/HA (IE2.3.1)
+Debe incluir y evidenciar:
+▪ Demo en vivo de servicios de red configurados (VPC, subredes, IGW, NAT GW)
+▪ Security Groups segmentados por capa (ALB, EC2 App, EC2 BD)
+Página 5 de 15
+2025
+--- Pagina 7 ---
+▪ Componentes de alta disponibilidad (ALB, Multi-AZ, ASG)
+2.5 Despliegue de 5 Contenedores (IE2.3.2)
+Debe incluir y evidenciar:
+▪ Despliegue de 5 contenedores Docker funcionales (frontend + 4 backend)
+▪ CRUD operativo vía ALB (GET, POST, PUT, DELETE productos)
+▪ Verificación de conectividad end-to-end (ALB → EC2 → MySQL)
+Aspectos formales de la presentación:
+▪ Duración: 10 minutos por estudiante.
+▪ Apoyo visual: PowerPoint y demostración apoyo en vivo en consola AWS (AWS Academy).
+▪ Metodología: Presentación ejecutiva técnica.
+CHECKLIST DE ANTECEDENTES MÍNIMOS REQUERIDOS
+Dimensión encargo:
+▪ [ ] Formato y Extensión: Entrega de un archivo digital único en formato PDF o Word, con una extensión máxima de 20 páginas.
+▪ [ ] Estructura Académica Obligatoria: Inclusión de Portada formal (con nombre, sección y fecha), Índice, Introducción, Desarrollo técnico
+(puntos 1.1 al 1.7), Conclusiones y Bibliografía redactada bajo la normativa APA v7.
+▪ [ ] Fundamentación del Rol: Explicación de las responsabilidades técnicas y estratégicas del arquitecto cloud, justificando su alineación con
+el crecimiento del 40% trimestral de FreshBox SpA.
+▪ [ ] Análisis Well-Architected: Descripción de los 6 pilares de AWS Well-Architected y un diagnóstico que identifique riesgos y oportunidades
+de mejora específicos para el caso.
+▪ [ ] Priorización de Requerimientos: Matriz o tabla que clasifique y priorice los requerimientos técnicos y de negocio en niveles Alta, Media
+y Baja.
+▪ [ ] Comparación de Modelos: Tabla comparativa de ventajas y desventajas entre nube pública, privada e híbrida, evaluadas bajo los criterios
+de costos, seguridad y escalabilidad.
+▪ [ ] Justificación de la Solución: Argumentación técnica, financiera (reducción de CAPEX por OPEX) y estratégica del modelo de nube
+seleccionado.
+Página 6 de 15
+2025
+--- Pagina 8 ---
+▪ [ ] Validación del Diseño: Verificación teórica de que la arquitectura propuesta cumple con los criterios de alta disponibilidad, escalabilidad
+y buenas prácticas (segmentación de red y cifrado de volúmenes).
+Dimensión presentación y demo:
+▪ [ ] Soporte Visual: Presentación ejecutiva en PowerPoint que contenga el diagnóstico del caso, necesidades tecnológicas y decisiones cloud
+alineadas al negocio.
+▪ [ ] Estructura de Requerimientos: Exposición clara del levantamiento, clasificación y vinculación de los requerimientos funcionales y no
+funcionales con la solución.
+▪ [ ] Diagrama de Arquitectura TO-BE: Presentación del diagrama de 3 capas (Pública, Privada App y Privada Data) incluyendo todos los
+componentes obligatorios (VPC, subredes, ALB, EC2, MySQL, SG) y sus flujos de comunicación.
+▪ [ ] Entorno de AWS Activo: Acceso en tiempo real a la consola de AWS Academy Learner Lab con toda la infraestructura encendida para la
+revisión del docente.
+▪ [ ] Demostración de Red y HA: Validación en vivo de los servicios de red configurados (VPC, subredes, IGW, NAT GW), Security Groups por
+capa y los componentes de alta disponibilidad (ALB y ASG Multi-AZ).
+▪ [ ] Validación Funcional (Demo CRUD): Demostración operativa y libre de errores de los 5 contenedores Docker (1 frontend y 4 backend
+Node.js), evidenciando la conectividad end-to-end (ALB → EC2 → MySQL) al consultar, crear, modificar y eliminar productos.
+▪ [ ] Control de Tiempo: Defensa ceñida estrictamente al tiempo asignado de 10 minutos por estudiante.
+Página 7 de 15
+2025
+--- Pagina 9 ---
+Caso/Antecedentes
+Caso: “FreshBox SpA - Plataforma de Catalogo Online de Productos Organicos”
+FreshBox SpA es una empresa dedicada a la venta online de productos orgánicos y saludables (frutas, verduras, snacks, bebidas naturales) con
+despacho a domicilio en la Region Metropolitana. La empresa ha experimentado un crecimiento sostenido del 40% trimestral y necesita
+modernizar su plataforma tecnológica en la nube.
+En esta primera etapa, la empresa requiere implementar un catálogo online administrable que permita gestionar sus productos. Las
+funcionalidades de carrito de compras y procesamiento de ordenes se incorporarán en etapas posteriores.
+1. La organización necesita que su nueva plataforma permita:
+• Visualización de productos
+• Administración de productos
+• Escalabilidad automática
+• Alta disponibilidad
+• Optimización operacional y financiera
+La gerencia solicita al área de Arquitectura Cloud diseñar e implementar una arquitectura base utilizando buenas prácticas AWS.
+2. Funcionalidades del proyecto
+Diseñar e implementar una arquitectura cloud base en AWS que permita soportar una plataforma e-commerce escalable, segura y altamente
+disponible para la venta online de productos orgánicos y saludables.
+2.1. La solución deberá integrar:
+• Consultar catálogo de productos (listado y detalle)
+• Crear nuevos productos (admin)
+• Modificar productos existentes (admin)
+Página 8 de 15
+2025
+--- Pagina 10 ---
+• Eliminar productos (admin)
+2.2. Microservicios (5 Contenedores Docker - Node.js):
+Contenedor Descripción Endpoint Método HTTP
+frontend Interfaz web desarrollada con Nginx, HTML, CSS y JavaScript / -
+get-products Obtiene el catálogo de productos disponibles /api/products GET
+create-product Registra nuevos productos en el sistema /api/products POST
+update-product Actualiza la información de un producto existente /api/products/:id PUT
+delete-product Elimina productos del sistema /api/products/:id DELETE
+2.3 Arquitectura TO-BE EP1 (3 Capas):
+Capa Categoría Servicio AWS Configuración
+Red VPC Multi-AZ CIDR /22
+Red 2 Subredes Públicas (Web) AZ1a y AZ1b para ALB
+Capa 1 web: Red Pública Red Internet Gateway Acceso público a Internet
+Alta
+Application Load Balancer (ALB) Distribución de tráfico hacia EC2
+Disponibilidad
+Red 2 Subredes Privadas (App) AZ1a y AZ1b
+Red NAT Gateway Salida controlada a Internet
+Capa 2 App: Red Privada
+Cómputo EC2 Amazon Linux (t4g.small) + Docker Ejecución de 5 contenedores
+Aplicación
+Escalabilidad Auto Scaling Group Mínimo 2, máximo 4 instancias
+Registro Amazon ECR Almacenamiento de 5 imágenes Docker
+Red 2 Subredes Privadas (Data) AZ1a y AZ1b
+Capa 3 Data: Red Privada Datos
+Base de Datos EC2 Amazon Linux (t4g.small) + MySQL Servidor de base de datos dedicado
+Página 9 de 15
+2025
+--- Pagina 11 ---
+Respaldo AWS Backup Recuperación en zona AZ1b
+Red Security Groups Segmentados por capa (ALB, App y BD)
+Seguridad
+Cifrado EBS Encryption Volúmenes cifrados para EC2 App y EC2 BD
+2.4. Security Groups
+Recurso Puertos Permitidos Origen
+Application Load Balancer (ALB) 80 (HTTP), 443 (HTTPS) 0.0.0.0/0
+EC2 Aplicación 80 (HTTP), 443 (HTTPS) Security Group del ALB
+EC2 Base de Datos (MySQL) 3306 (MySQL) Security Group de EC2 Aplicación
+2.5. Flujo de despliegue
+1) Desplegar 5 imágenes Docker (1 frontend + 4 backend Node.js)
+2) Push imágenes a Amazon ECR.
+3) Desplegar contenedores en EC2 App desde ECR.
+4) ASG gestiona min. 2 / máx. 4 instancias.
+5) ALB distribuye tráfico.
+6) EC2 BD con MySQL en capa privada.
+7) AWS Backup configurado (contingencia AZ1b).
+8) App CRUD funcional vía ALB.
+Página 10 de 15
+2025
+--- Pagina 12 ---
+3. Pauta de Evaluación
+Categoría % logro Descripción niveles de logro
+Muy buen desempeño 100% Demuestra un desempeño destacado, evidenciando el logro de todos los aspectos evaluados en el indicador.
+Buen desempeño 80% Demuestra un alto desempeño del indicador, presentando pequeñas omisiones, dificultades y/o errores.
+Demuestra un desempeño competente, evidenciando el logro de los elementos básicos del indicador, pero con
+Desempeño aceptable 60%
+omisiones, dificultades o errores.
+Presenta importantes omisiones, dificultades o errores en el desempeño, que no permiten evidenciar los
+Desempeño incipiente 30%
+elementos básicos del logro del indicador, por lo que no puede ser considerado competente.
+Desempeño no logrado 0% Presenta ausencia o incorrecto desempeño.
+Ponderación
+Categorías de Respuesta Indicador de
+Evaluación
+Indicador de Evaluación
+Muy buen Desempeño Desempeño Desempeño no
+Buen desempeño
+desempeño aceptable incipiente logrado
+80%
+100% 60% 30% 0%
+Dimensión: Encargo
+Fundamenta
+Describe de Presenta una No fundamenta
+técnica y Fundamenta el rol
+1. Fundamenta el rol del arquitecto forma general el fundamentación el rol del
+estratégicamente del arquitecto cloud
+cloud en la transformación digital rol del arquitecto superficial y arquitecto cloud
+el rol del y presenta
+mediante la presentación de soluciones cloud y presenta soluciones poco ni presenta
+arquitecto cloud, soluciones 5%
+tecnológicas alineadas con los soluciones justificadas, soluciones
+proponiendo alineadas al
+objetivos estratégicos de un escenario parcialmente débilmente pertinentes
+soluciones escenario
+organizacional. relacionadas al alineadas al alineadas al
+alineadas a la organizacional.
+negocio. negocio. negocio.
+transformación
+Página 11 de 15
+2025
+--- Pagina 13 ---
+digital del
+negocio.
+Explica solo
+Presenta menos No explica
+algunos de los
+Explica de la mitad de correctamente
+Explica la mayoría pilares con
+correctamente los pilares los pilares del
+de los pilares y su ejemplos
+2. Explica los pilares del Well- los pilares del requeridos o Framework ni
+aplicación en la genéricos que no
+Architected Framework aplicados a una Well-Architected intercambia los considera su
+organización se vinculan de 5%
+organización empresarial teniendo en Framework y los conceptos entre vinculación con
+vinculado con sus manera directa a
+cuenta sus necesidades. relaciona con sí, omitiendo las las necesidades
+necesidades las necesidades
+necesidades características de la
+organizacionales. de la
+empresariales. técnicas que los organización
+organización
+diferencian. empresarial.
+empresarial.
+Detecta
+oportunidades Detecta mejoras Identifica Realiza un
+3. Analiza una arquitectura propuesta de mejora en relevantes en la hallazgos análisis
+identificando mejoras en seguridad, todos los pilares mayoría de los superficiales en superficial o No identifica
+costos, confiabilidad y eficiencia del relevantes y pilares con los pilares, incorrecto de los mejoras o
+5%
+rendimiento, excelencia operativa y propone optimizaciones proponiendo pilares y propone confunde los
+sostenibilidad según AWS Well- optimizaciones genéricas recomendaciones solo algunas pilares AWS.
+Architected. específicas según adecuadas al caso genéricas o optimizaciones
+AWS Well- revisado. parciales. genéricas.
+Architected.
+Prioriza la mayoría
+Prioriza de los
+correctamente requerimientos
+Prioriza
+los técnicos y de No prioriza
+requerimientos Presenta una
+4. Prioriza requerimientos técnicos y de requerimientos negocio relevantes, requerimientos
+de forma general priorización
+negocio para proponer una solución técnicos y de proponiendo una ni propone una 5%
+con una solución superficial o
+cloud inicial. negocio solución cloud solución cloud
+parcialmente poco justificada.
+proponiendo una viable pero que coherente.
+alineada.
+solución cloud omite detalles
+alineada al caso. secundarios del
+caso.
+Compara Compara Menciona los Menciona los No compara
+5. Compara modelos de nube pública,
+integralmente los adecuadamente los modelos de modelos de correctamente
+privada e híbrida según costos, 5%
+modelos cloud modelos cloud nube, pero nube, pero se los modelos de
+seguridad y escalabilidad.
+considerando considerando la realiza una limita a listarlos nube.
+Página 12 de 15
+2025
+--- Pagina 14 ---
+costos, seguridad mayoría de los comparación sin establecer un
+y escalabilidad. criterios. general con análisis
+análisis limitados. comparativo ni
+evaluar sus
+diferencias en
+costos, seguridad
+o escalabilidad
+frente al caso.
+Selecciona un
+modelo cloud
+Justifica de manera para el caso,
+Justifica técnica,
+integral la selección Justifica el pero la
+financiera y No justifica la
+del modelo cloud modelo cloud justificación es
+estratégicamente selección del
+6. Justifica la selección del modelo para el escenario adecuado pero la insuficiente y no
+la elección del modelo cloud
+cloud más adecuado para un escenario empresarial, pero descripción es presenta
+modelo cloud más adecuado 5%
+empresarial específico, teniendo en presenta omisiones técnica y no criterios
+considerando los para el negocio y
+cuenta sus objetivos de negocio en su descripción o estratégica a los técnicos,
+objetivos sus objetivos
+no se vinculan con objetivos de financieros y
+estratégicos de estratégicos.
+los objetivos del negocio. estratégicos
+negocio.
+negocio. alineados a los
+objetivos del
+negocio.
+Presenta una
+Valida
+validación
+correctamente la
+Valida superficial o con
+mayoría de los Valida
+completamente errores que no
+criterios parcialmente el No valida el
+7. Valida que el diseño cumpla criterios el diseño logran justificar
+arquitectónicos, diseño diseño ni los
+de alta disponibilidad, escalabilidad y verificando alta técnicamente 10%
+pero presenta identificando criterios
+buenas prácticas arquitectónicas. disponibilidad, cómo se
+omisiones menores algunos criterios arquitectónicos.
+escalabilidad y garantiza la
+al justificar las relevantes.
+buenas prácticas. disponibilidad y
+buenas prácticas
+escalabilidad de
+arquitectónicas.
+la solución.
+Dimensión: Presentación
+Analiza Identifica Identifica Realiza un No identifica
+8. Analiza un caso empresarial
+completamente correctamente la necesidades análisis necesidades 10%
+identificando necesidades tecnológicas
+necesidades mayoría de las generales y superficial y tecnológicas ni
+Página 13 de 15
+2025
+--- Pagina 15 ---
+y proponiendo decisiones cloud técnicas, necesidades y realiza un análisis plantea propone
+alineadas al negocio. financieras y propone decisiones limitado del caso decisiones poco decisiones cloud.
+estratégicas adecuadas empresarial que justificadas o sin
+proponiendo alineadas al no logra cubrir alineación con
+decisiones cloud negocio. los objetivos los objetivos del
+totalmente estratégicos del negocio.
+alineadas al negocio.
+negocio.
+Identifica la
+Identifica y
+mayoría de los Identifica Identifica
+documenta
+requerimientos de requerimientos requerimientos No identifica
+completamente
+9. Levanta requerimientos funcionales una de las de forma general de manera requerimientos
+todos los
+y no funcionales a partir de un caso de categorías pero no logra incompleta o que en el caso de 10%
+requerimientos
+negocio. presentando categorizarlos no se vinculan negocio
+clave para la
+omisiones o falta de entre funcionales con el caso de planteado.
+operatividad del
+clasificación en la y no funcionales. negocio.
+caso.
+otra.
+El diagrama
+expone con total
+claridad la Diseña el
+El diagrama Presenta un
+topología de 3 diagrama, pero
+incorpora la diagrama
+capas: omite la
+mayoría de las incompleto o
+representa la separación
+subredes y incorrecto que
+segmentación estricta por capas
+componentes identifica No presenta el
+exacta de las 6 (Pública, Privada
+10. Diseña un diagrama de solicitados según elementos cloud diagrama o el
+subredes Multi- App, Privada
+arquitectura cloud representando la buenas prácticas, aislados sin diseño
+AZ, la ubicación Data) o excluye
+topología TO-BE de 3 capas con sus pero presenta establecer una entregado no 15%
+del ALB en la componentes
+componentes lógicos y flujos de omisiones menores conexión, flujo corresponde a
+zona pública, las indispensables
+comunicación. en la rotulación de lógico o jerarquía una arquitectura
+pasarelas (como el ALB o el
+los flujos de de red entre cloud de AWS.
+(IGW/NAT), las NAT Gateway),
+comunicación o en ellos, vulnerando
+instancias de afectando la
+la nomenclatura las buenas
+cómputo/datos y coherencia de la
+técnica de las prácticas
+las flechas de arquitectura
+pasarelas. esenciales.
+comunicación presentada.
+direccional,
+alineado a
+Página 14 de 15
+2025
+--- Pagina 16 ---
+buenas prácticas
+de diseño.
+Configura
+operativamente
+en AWS la VPC Configura los
+(/22), subredes y Realiza la servicios de red
+Registra intentos
+tablas de ruteo ; configuración de de forma parcial ;
+de configuración
+demuestra un red y seguridad en la infraestructura
+en la consola de
+aislamiento la consola de AWS , base responde No realiza la
+AWS, pero posee
+perimetral pero presenta pero carece de configuración de
+errores críticos
+efectivo en la errores menores en protocolos de los servicios de
+11. Configura la infraestructura base de
+consola las reglas de origen aislamiento red ni de la
+de red y aislamiento de seguridad direccionamiento 15%
+mediante de los Security intercapa (usa seguridad
+perimetral en el entorno cloud IP o ruteo que
+Security Groups Groups o en el Security Groups perimetral
+impiden la
+segmentados enrutamiento de genéricos) o no solicitada en el
+comunicación
+(ALB, App y BD) las subredes que implementa NAT entorno cloud.
+básica entre las
+que restringen no comprometen la Gateway para dar
+capas de la
+los puertos (80, operación global salida controlada
+arquitectura.
+443, 3306) según del entorno cloud. a las instancias
+la matriz del caso privadas.
+y libre de errores
+funcionales.
+Despliega
+parcialmente la
+Despliega aplicación en
+Realiza intentos
+correctamente la Despliega la contenedores
+de despliegue
+aplicación en aplicación en presentando
+12. Despliega una aplicación en con errores No realiza el
+contenedores contenedores problemas de
+contenedores verificando conectividad, críticos de despliegue de la
+verificando verificando configuración o 10%
+funcionamiento y cumplimiento de funcionamiento aplicación en
+conectividad, conectividad y conectividad que
+buenas prácticas. que impiden el contenedores.
+funcionamiento y funcionamiento con limitan la
+funcionamiento
+alineación con errores menores. conectividad
+de la aplicación.
+buenas prácticas. externa o el
+acceso correcto a
+los servicios.
+Total 100%
+Página 15 de 15
+2025
