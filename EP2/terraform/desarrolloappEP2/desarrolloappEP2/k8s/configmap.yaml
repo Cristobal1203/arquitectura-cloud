@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: freshbox-config
+  namespace: freshbox
+data:
+  DB_HOST: "<RDS_ENDPOINT>"
+  DB_NAME: "freshbox"
+  DB_PORT: "3306"
+
+# 2026 - Disenador asignatura: Ignacio A. Pastenet M.
